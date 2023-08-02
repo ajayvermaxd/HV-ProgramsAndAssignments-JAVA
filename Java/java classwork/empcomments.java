@@ -2,9 +2,9 @@ import java.io.*;
 import java.util.*;
 
 public class empcomments {
-    public static String fileName = "employeesDetails.csv";
 
     public static void main(String[] args) {
+        String fileName = "employees.csv";
 
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
@@ -41,18 +41,18 @@ public class empcomments {
                 case 2:
                     displayAllEmployees(fileName);
                     break;
-                // case 3:
-                // findEmployeeWithHighestSalary(fileName);
-                // break;
-                // case 4:
-                // findEmployeeWithLowestSalary(fileName);
-                // break;
-                // case 5:
-                // findYoungestEmployee(fileName);
-                // break;
-                // case 6:
-                // findOldestEmployee(fileName);
-                // break;
+                case 3:
+                    findEmployeeWithHighestSalary(fileName);
+                    break;
+                case 4:
+                    findEmployeeWithLowestSalary(fileName);
+                    break;
+                case 5:
+                    findYoungestEmployee(fileName);
+                    break;
+                case 6:
+                    findOldestEmployee(fileName);
+                    break;
                 // case 7:
                 // findEmployeesWithinAgeRange(fileName, scanner);
                 // break;
@@ -62,12 +62,12 @@ public class empcomments {
                 case 9:
                     calculateAverageAge(fileName);
                     break;
-                // case 10:
-                // calculateAverageSalary(fileName);
-                // break;
-                // case 11:
-                // findEmployeesAboveSalaryThreshold(fileName, scanner);
-                // break;
+                case 10:
+                    calculateAverageSalary(fileName);
+                    break;
+                case 11:
+                    findEmployeesAboveSalaryThreshold(fileName, scanner);
+                    break;
                 // case 12:
                 // updateEmployeeAge(fileName, scanner);
                 // break;
@@ -92,7 +92,6 @@ public class empcomments {
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-
         }
     }
 
@@ -124,18 +123,18 @@ public class empcomments {
             String line;
             boolean isFirstLine = true;
 
+            System.out.println("==========Employee Details==========");
             while ((line = reader.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
                     continue; // Skip the header line
                 }
-
                 String[] employeeData = line.split(",");
                 String name = employeeData[0].trim();
                 int age = Integer.parseInt(employeeData[1].trim());
                 double salary = Double.parseDouble(employeeData[2].trim());
 
-                System.out.println("Name: " + name + ", Age: " + age + ", Salary: " + salary);
+                System.out.println("Name: " + name + "\t" + " Age: " + age + "\t" + " Salary: " + salary);
             }
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
@@ -143,55 +142,264 @@ public class empcomments {
     }
 
     public static void calculateTotalSalary(String fileName) {
-        String line;
-
-        try {
-            int Totalsalary = 0;
-            BufferedReader br = new BufferedReader(new FileReader(fileName));
-            br.readLine();
-            while ((line = br.readLine()) != null) {
-
-                String[] data = line.split(",");
-                int sal = Integer.parseInt(data[2]);
-                Totalsalary = Totalsalary + sal;
-
-            }
-            System.out.println("Total salary : " + Totalsalary);
-
-        } catch (Exception e) {
-
-        }
-    }
-
-    public static void calculateAverageAge(String fileName) {
-
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             boolean isFirstLine = true;
-            double avg;
-            int count = 0;
-            int totalAge = 0;
+            double totalSalary = 0;
 
             while ((line = reader.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
                     continue; // Skip the header line
                 }
-
                 String[] employeeData = line.split(",");
-                int age = Integer.parseInt(employeeData[1].trim());
-                totalAge += age;
-                count++;
-
+                double salary = Double.parseDouble(employeeData[2].trim());
+                totalSalary = totalSalary + salary;
             }
-            avg = totalAge / count;
+            System.out.println("Total Salary of all employees: " + totalSalary);
 
-            System.out.println("Average Age of the employees is : " + avg);
         } catch (IOException e) {
             System.err.println("Error reading the file: " + e.getMessage());
-        } catch (NumberFormatException e) {
         }
-
     }
 
+    public static void calculateAverageAge(String filename) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            boolean isFirstLine = true;
+            int totalAge = 0;
+            int count = 0;
+            double avgAge = 0;
+
+            while ((line = reader.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    continue; // Skip the header line
+                }
+                String[] employeeData = line.split(",");
+                int age = Integer.parseInt(employeeData[1].trim());
+                totalAge = totalAge + age;
+                count++;
+            }
+            avgAge = totalAge / count;
+            System.out.println("Average age of all employees: " + avgAge);
+
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+    }
+
+    public static void calculateAverageSalary(String fileName) {
+        System.out.println("\n=== Calculate Average Salary of Employees ===");
+        try {
+            // Open the CSV file for reading
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+
+            // Read the header line (and skip it) as we don't need it for the calculation
+            reader.readLine();
+
+            int totalEmployees = 0;
+            double totalSalary = 0.0;
+
+            // Read each employee's details and calculate total salary and count of
+            // employees
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] employeeData = line.split(",");
+                if (employeeData.length >= 3) {
+                    double salary = Double.parseDouble(employeeData[2]);
+                    totalSalary += salary;
+                    totalEmployees++;
+                }
+            }
+            // Close the reader
+            reader.close();
+
+            if (totalEmployees == 0) {
+                System.out.println("No employees found in the database.");
+            } else {
+                double averageSalary = totalSalary / totalEmployees;
+                System.out.printf("Average Salary of Employees: $%.2f%n", averageSalary);
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error occurred while reading the file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("Error parsing salary data: " + e.getMessage());
+        }
+    }
+
+    // Method to find employees above a specific salary threshold
+    private static void findEmployeesAboveSalaryThreshold(String fileName, Scanner scanner) {
+        try {
+            FileReader reader = new FileReader(fileName);
+            BufferedReader bufferReader = new BufferedReader(reader);
+
+            System.out.print("Enter salary threshold: ");
+            double threshold = scanner.nextDouble();
+            scanner.nextLine(); // Consume the newline character
+
+            boolean found = false;
+            bufferReader.readLine();
+            String line;
+            while ((line = bufferReader.readLine()) != null) {
+                String[] employeeData = line.split(",");
+                double salary = Double.parseDouble(employeeData[2].trim());
+                if (salary > threshold) {
+                    String name = employeeData[0];
+                    int age = Integer.parseInt(employeeData[1]);
+                    System.out.println("Name: " + name + ", Age: " + age + ", Salary: " + salary);
+                    found = true;
+                }
+            }
+            bufferReader.close();
+            if (!found) {
+                System.out.println("No employees found above the salary threshold.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error: Failed to find employees above salary threshold.");
+        }
+    }
+
+    public static void findEmployeeWithHighestSalary(String filename) {
+        try {
+
+            FileReader fr = new FileReader(filename);
+            BufferedReader br = new BufferedReader(fr);
+
+            double maxSalary = Double.MIN_VALUE;
+            List<String> maxSalaryData = new ArrayList<>();
+
+            // boolean found = false;
+            br.readLine();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] employeeData = line.split(",");
+                double salary = Double.parseDouble(employeeData[2].trim());
+
+                if (salary > maxSalary) {
+                    maxSalary = salary;
+                    maxSalaryData.clear();
+                    maxSalaryData.add(line);
+                } else if (salary == maxSalary) {
+                    maxSalaryData.add(line);
+                }
+            }
+            br.close();
+            for (String i : maxSalaryData) {
+                String[] empData = i.split(",");
+                String name = empData[0];
+                System.out.println("Highest Salary is of " + name);
+            }
+        } catch (Exception e) {
+            // handle exception
+        }
+    }
+
+    public static void findEmployeeWithLowestSalary(String filename) {
+        try {
+
+            FileReader fr = new FileReader(filename);
+            BufferedReader br = new BufferedReader(fr);
+
+            double minSalary = Double.MAX_VALUE;
+            List<String> minSalaryData = new ArrayList<>();
+
+            // boolean found = false;
+            br.readLine();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] employeeData = line.split(",");
+                double salary = Double.parseDouble(employeeData[2].trim());
+
+                if (salary < minSalary) {
+                    minSalary = salary;
+                    minSalaryData.clear();
+                    minSalaryData.add(line);
+                } else if (salary == minSalary) {
+                    minSalaryData.add(line);
+                }
+            }
+            br.close();
+            for (String i : minSalaryData) {
+                String[] empData = i.split(",");
+                String name = empData[0];
+                System.out.println("Lowest salary is of: " + name);
+            }
+        } catch (Exception e) {
+            // handle exception
+        }
+    }
+
+    public static void findYoungestEmployee(String filename) {
+        try {
+
+            FileReader fr = new FileReader(filename);
+            BufferedReader br = new BufferedReader(fr);
+
+            int minAge = Integer.MAX_VALUE;
+            List<String> minAgeData = new ArrayList<>();
+
+            // boolean found = false;
+            br.readLine();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] employeeData = line.split(",");
+                int age = Integer.parseInt(employeeData[1].trim());
+
+                if (age < minAge) {
+                    minAge = age;
+                    minAgeData.clear();
+                    minAgeData.add(line);
+                } else if (age == minAge) {
+                    minAgeData.add(line);
+                }
+            }
+            br.close();
+            for (String i : minAgeData) {
+                String[] empData = i.split(",");
+                String name = empData[0];
+                System.out.println("Youngest Employee is: " + name);
+            }
+        } catch (Exception e) {
+            // handle exception
+        }
+    }
+
+    public static void findOldestEmployee(String filename) {
+        try {
+
+            FileReader fr = new FileReader(filename);
+            BufferedReader br = new BufferedReader(fr);
+
+            int maxAge = Integer.MIN_VALUE;
+            List<String> maxAgeData = new ArrayList<>();
+
+            // boolean found = false;
+            br.readLine();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] employeeData = line.split(",");
+                int age = Integer.parseInt(employeeData[1].trim());
+
+                if (age > maxAge) {
+                    maxAge = age;
+                    maxAgeData.clear();
+                    maxAgeData.add(line);
+                } else if (age == maxAge) {
+                    maxAgeData.add(line);
+                }
+            }
+            br.close();
+            for (String i : maxAgeData) {
+                String[] empData = i.split(",");
+                String name = empData[0];
+                System.out.println("Oldest Employee is: " + name);
+            }
+        } catch (Exception e) {
+            // handle exception
+        }
+    }
 }
