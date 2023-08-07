@@ -1,0 +1,71 @@
+you will create a Java program that generates data for a CSV file and writes it to a new file named `output.csv`. The CSV file will contain information about employees and their salaries.
+
+**Task 1: Data Generation**
+
+1. Generate data for five employees with the following fields:
+
+   - Employee ID (int)
+
+   - Employee Name (String)
+
+   - Department (String)
+
+   - Salary (double)
+
+2. Create a data structure (e.g., ArrayList) to store the employee information.
+
+**Task 2: CSV File Writing**
+
+1. Open a new file named `output.csv` for writing.
+
+2. Write the header row with the column names: "Employee ID", "Employee Name", "Department", "Salary".
+
+3. Iterate through the data structure containing employee information.
+
+4. For each employee, write a new row to the CSV file with their data separated by commas.
+
+**Task 3: CSV File Verification**
+
+1. After writing the data to the CSV file, read the contents of the `output.csv` file.
+
+2. Display the contents on the console to verify that the data was written correctly.
+
+**Task 4: Handling Exceptions**
+
+1. Implement proper exception handling throughout the program to handle potential errors, such as file I/O errors or data generation issues.
+
+Task 5: Bonus Challenge**
+
+1. Implement sorting functionality to sort the employees based on their salaries in ascending order before writing the data to the CSV file.
+
+2. Simple File Format:
+
+Instead of using a complex CSV format, write the employee data to the file in a simple text-based format. For example, each line can represent an employee with fields separated by a specific character (e.g., tab or semicolon).
+
+3. **Error Handling:**
+
+Provide user-friendly error messages if the `output.csv` file cannot be created or if there are any issues during the writing process. Handle potential exceptions gracefully.
+
+4. **Interactive Menu:**
+
+Create an interactive menu that allows the user to choose different options, such as generating new employee data, writing to the file, verifying data, or exiting the program.
+
+5. **Data Validation:**
+
+Implement basic data validation to ensure that the user input for Employee ID and Salary are positive integers and non-negative decimal values, respectively.
+
+6. **File Overwriting Confirmation:**
+
+Before writing the data to the `output.csv` file, prompt the user to confirm if they want to overwrite the existing file (if it already exists).
+
+7. **Display Employee Summary:**
+
+After writing the data to the file, display a summary of the total number of employees and the average salary of all employees.
+
+8. **Customizable Separator:**
+
+Allow the user to choose a custom separator character (e.g., comma, pipe, colon) to separate fields in the output file.
+
+9. **Clear Data Option:**
+
+ Add an option to clear the current employee data before generating new data or writing to the file.
