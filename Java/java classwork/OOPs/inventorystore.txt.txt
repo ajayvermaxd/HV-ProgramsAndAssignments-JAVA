@@ -1,0 +1,55 @@
+
+
+**Problem Description:**
+You are tasked with developing a comprehensive Inventory Store Management System for a retail store. 
+The system should allow the store to manage its inventory of various products, handle sales, apply discounts, and keep track of the total inventory value. 
+The system should be designed using Java and should make use of object-oriented programming principles such as inheritance and polymorphism.
+
+**Requirements:**
+
+1. **Product Class:**
+    - Create a base class called `Product` that represents a generic product in the store's inventory.
+    - The `Product` class should have the following attributes:
+        - `name`: A string representing the name of the product.
+        - `price`: A double representing the price of the product.
+        - `quantity`: An integer representing the quantity of the product in stock.
+    - Implement a parameterized constructor in the `Product` class to initialize these attributes.
+    - Implement the following methods in the `Product` class:
+        - `display()`: A method that displays the name, price, and quantity of the product.
+        - `calculateValue()`: A method that calculates the total value of the product based on its price and quantity.
+        - `sell(int quantitySold)`: A method that allows selling a specified quantity of the product, updating the quantity in stock.
+        - `applyDiscount(double discountPercentage)`: A method that applies a discount to the product's price based on the specified discount percentage.
+
+2. **Subclasses:**
+    - Create subclasses for specific types of products: `Electronics`, `Clothing`, and `Books`.
+    - Each subclass should inherit from the `Product` class and extend it with additional attributes that are relevant to the specific type of product.
+    - Implement parameterized constructors in each subclass to initialize the additional attributes along with the attributes inherited from the base `Product` class.
+    - Override the `display()` method in each subclass to provide detailed information about the product, including its type-specific attributes.
+
+3. **Inventory Management:**
+    - Create an inventory management system that allows adding products of different types to the store's inventory.
+    - Implement a list to manage the store's inventory. Use polymorphism to store different types of products in the same list.
+    - Display the entire inventory, including the name, price, quantity, and specific attributes of each product type.
+
+4. **Total Inventory Value:**
+    - Implement a feature to calculate and display the total value of the entire inventory.
+    - Iterate through the list of products, calling the `calculateValue()` method for each product, and sum up the results to calculate the total inventory value.
+
+5. **Sales and Quantity Management:**
+    - Implement a feature to sell a specified quantity of a product. Ensure that the quantity in stock is updated accordingly.
+    - Display the updated inventory after each sale.
+
+6. **Comparison and Discount:**
+    - Implement a method to compare two products based on their prices and quantities.
+    - Implement a method to apply a discount to a product's price based on the specified discount percentage.
+
+7. **Search by Name:**
+    - Implement a feature to search for a product by its name.
+    - Display the search results, including the product type-specific information.
+
+**Deliverables:**
+
+Your solution should include a Java program that implements the Inventory Store Management System as described above.
+ It should demonstrate the use of inheritance, polymorphism, and the various methods specified in the problem statement.
+  Provide comments in the code to explain the purpose of each method and how it contributes to the overall functionality of the system.
+
