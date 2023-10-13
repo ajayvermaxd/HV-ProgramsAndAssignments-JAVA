@@ -118,7 +118,7 @@ class Restaurant {
     }
 }
 
-public class RestaurantApp {
+public class ManagerRole {
     public static void main(String[] args) {
         Restaurant restaurant = new Restaurant();
 
