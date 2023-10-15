@@ -1,0 +1,65 @@
+1. Create a Java program that analyzes a directory and its subdirectories. The program should do the following:
+
+   - Recursively traverse the directory and its subdirectories.
+
+   - Identify and list all files with a ".txt" extension.
+
+   - Calculate the total size (in bytes) of all ".txt" files in the directory and its subdirectories.
+
+   - Identify and list all unique words found in these ".txt" files (case insensitive).
+
+   - Count the frequency of each unique word and display the top 10 most frequent words.
+
+
+2. Implement a file validation and transformation process for text files:
+   - Create a file named "input.txt" with sample text data, including both valid and invalid records.
+
+   - Read the "input.txt" file and validate each record.
+
+     - Valid records should have a specific format (e.g., a CSV-like format with specific columns).
+
+     - Invalid records should be logged with details about what makes them invalid.
+
+   - Transform the valid records into a new format and write them to an "output.txt" file.
+
+   - Create a summary report that includes the number of valid and invalid records.
+
+
+3. Implement robust error handling and logging:
+   - Use appropriate exception handling mechanisms to handle file I/O exceptions, validation errors, and other potential issues.
+
+   - Log all exceptions and errors to a dedicated log file named "error.log" using a logging framework of your choice (e.g., Log4j or java.util.logging).
+
+
+
+4. Implement the following  features:
+
+   - Allow the user to specify the directory path to be analyzed as a command-line argument.
+
+   - Provide an option to search for specific keywords within the ".txt" files and display the matching lines.
+
+   - Implement a configuration file (e.g., "config.properties") to store program settings such as the log file path, valid file format, and transformation rules.
+
+
+Submission Guidelines:
+
+- Submit a well-documented Java source code file.
+
+- Include comments to explain your code.
+
+- If you implement the optional features, provide clear instructions on how to use them.
+
+- Include sample "input.txt" and "output.txt" files for testing.
+
+
+Grading Criteria:
+
+Your assignment will be graded based on the following criteria:
+
+- Proper directory analysis, file listing, and word frequency calculations.
+
+- Correct file validation and transformation, including error reporting.
+
+- Effective error handling, exception handling, and logging.
+
+- Optional features, if implemented, will be evaluated for correctness and usability.
