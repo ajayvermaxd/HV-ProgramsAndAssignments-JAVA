@@ -1,21 +1,18 @@
-package GradedAssignmentOnFileHandling;
+package GradedAssignmentonFileHandling;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
-class Employee {
+class Personnel {
     private int id;
     private String name;
-    private String department;
+    private String dept;
     private double salary;
 
-    public Employee(int id, String name, String department, double salary) {
+    public Personnel(int id, String name, String dept, double salary) {
         this.id = id;
         this.name = name;
-        this.department = department;
+        this.dept = dept;
         this.salary = salary;
     }
 
@@ -27,103 +24,113 @@ class Employee {
         return name;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getDept() {
+        return dept;
     }
 
     public double getSalary() {
         return salary;
     }
+
+    @Override
+    public String toString() {
+        return "ID: " + id +
+                ", Name: " + name +
+                ", Dept: " + dept +
+                ", Salary: " + salary;
+    }
 }
 
 public class empDataGenerator {
-
-    private static ArrayList<Employee> employees = new ArrayList<>();
-    private static final String CSV_SEPARATOR = ",";
-
     public static void main(String[] args) {
+        List<Personnel> staffList = new ArrayList<>();
+        String outputFile = "output.csv";
 
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner userInput = new Scanner(System.in)) {
+            int selectedOption;
 
-        while (true) {
-            System.out.println("\n---- Employee Data Generator ----");
-            System.out.println("1. Generate Employee Data");
-            System.out.println("2. Write Data to CSV");
-            System.out.println("3. Verify Data from CSV");
-            System.out.println("4. Clear Data");
-            System.out.println("5. Exit");
+            do {
+                showOptions();
+                System.out.print("Please select an option: ");
+                selectedOption = userInput.nextInt();
 
-            try {
-                int choice = scanner.nextInt();
-
-                switch (choice) {
+                switch (selectedOption) {
                     case 1:
-                        generateEmployeeData();
+                        staffList = createPersonnelData();
                         break;
                     case 2:
-                        writeDataToCSV();
+                        Collections.sort(staffList, Comparator.comparingDouble(Personnel::getSalary));
+                        storeDataToFile(staffList, outputFile, userInput);
+                        System.out.println("Employee data has been successfully stored in 'EmployeeData.csv'.");
                         break;
                     case 3:
-                        verifyDataFromCSV();
+                        confirmFileContents(outputFile);
                         break;
                     case 4:
-                        clearData();
-                        break;
-                    case 5:
-                        System.out.println("Exiting the program.");
-                        scanner.close();
-                        System.exit(0);
+                        System.out.println("Thank you for using the Employee Management App. Goodbye!");
                         break;
                     default:
-                        System.out.println("Invalid option. Please try again.");
+                        System.out.println("The option you selected is not valid. Please try again.");
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a valid option.");
-                scanner.nextLine(); // Clear the input buffer
+            } while (selectedOption != 4);
+        } catch (IOException e) {
+            System.err.println("An error occurred while handling file operations: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Oops! Something unexpected occurred: " + e.getMessage());
+        }
+    }
+
+    public static List<Personnel> createPersonnelData() {
+        List<Personnel> staffList = new ArrayList<>();
+        staffList.add(new Personnel(101, "Neeraj", "HR", 50000.0));
+        staffList.add(new Personnel(102, "Ajay", "Finance", 60000.0));
+        staffList.add(new Personnel(103, "Sohail", "IT", 55000.0));
+        staffList.add(new Personnel(104, "Sunita", "Marketing", 52000.0));
+        staffList.add(new Personnel(105, "Minakshee", "Operations", 48000.0));
+        return staffList;
+    }
+
+    public static void storeDataToFile(List<Personnel> staffList, String filePath, Scanner userInput)
+            throws IOException {
+        File outputFile = new File(filePath);
+        if (outputFile.exists()) {
+            System.out.print("'EmployeeData.csv' already exists. Do you want to overwrite it? (yes/no): ");
+            String response = userInput.next().toLowerCase();
+            if (!response.equals("yes")) {
+                System.out.println("Operation cancelled. The existing file was not overwritten.");
+                return;
+            }
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write("Employee ID,Employee Name,Department,Salary");
+            writer.newLine();
+
+            for (Personnel employee : staffList) {
+                writer.write(employee.getId() + ","
+                        + employee.getName() + ","
+                        + employee.getDept() + ","
+                        + employee.getSalary());
+                writer.newLine();
             }
         }
     }
 
-    public static void generateEmployeeData() {
-        employees.clear();
-        employees.add(new Employee(101, "Vishal", "Sales", 50000));
-        employees.add(new Employee(102, "Ajay", "Marketing", 55000));
-        employees.add(new Employee(103, "Vaibhav", "Engineering", 70000));
-        employees.add(new Employee(104, "Minakshee", "HR", 48000));
-        employees.add(new Employee(105, "Gagan", "Finance", 65000));
-
-        System.out.println("Employee data generated successfully!");
-    }
-
-    public static void writeDataToCSV() {
-        if (employees.isEmpty()) {
-            System.out.println("Employee data is empty. Please generate employee data first.");
-            return;
-        }
-
-        Scanner scanner = new Scanner(System.in);
-
-        try {
-
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter a valid file name.");
+    public static void confirmFileContents(String filePath) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            System.out.println("\nReading the contents of 'EmployeeData.csv':");
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
         }
     }
 
-    public static void verifyDataFromCSV() {
-        Scanner scanner = new Scanner(System.in);
-
-        try {
-
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter a valid file name.");
-        }
-    }
-
-    public static void clearData() {
-        employees.clear();
-        System.out.println("Employee data cleared successfully!");
+    public static void showOptions() {
+        System.out.println("\nOptions:");
+        System.out.println("1. Create new personnel data");
+        System.out.println("2. Store data in file (and sort)");
+        System.out.println("3. Read data from file");
+        System.out.println("4. Exit the application");
     }
 }
-
-// it is not completed. Submitting it because of timeline issue.
